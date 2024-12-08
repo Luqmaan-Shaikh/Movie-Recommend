@@ -23,7 +23,7 @@ def get_movies():
     
     while True:
         
-        if len(movieNames) >= 1000:
+        if len(movieNames) >= 2000:
             break
         
         url = f'{base_url}/movie/?page={page}'
@@ -48,5 +48,5 @@ if __name__ == "__main__":
     print(len(movieNames))
     
     df = pd.DataFrame({'Movie Name': movieNames, 'Link': movieLinks})
-    df.to_csv('movies.csv', index=False)
+    df.to_csv('./dataset/movies.csv', index=False)
     print("Done")
