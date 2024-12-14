@@ -73,9 +73,12 @@ with open('Movie-Recommend/test.csv', mode='r') as file:
     for row in csv_reader:
         data.append(row)
 
-print(data)  #to print the list
-
-
+#print(data)  #to print the list
+titles = []
+genre = []
+times = []
+ratings = []
+top_casts = []
 # getting some problem from here #need help from here
 for i in data :
     try:
@@ -103,12 +106,23 @@ for i in data :
         rating =new_soup.find("div",attrs={"class":'user_score_chart'})
         top_cast= cast_soup.find("ol",attrs={"class":'people credits'}).text.strip("\n").replace("\n", "").replace("\t", "").replace("  ", " ")
 
-        print(f"Title : {title}")
+        '''print(f"Title : {title}")
         print(f"Genres :{genres}")
         print(f"Time :{time}")  
-        #print(rating["data-percent"])
+        print(f"Rating :{rating['data-percent']}")
         print(f"Top Cast :{top_cast}")
+        print("--------------------------------")'''
+
+        titles.append(title)
+        genre.append(genres)
+        times.append(time)
+        ratings.append(rating['data-percent'])
+        top_casts.append(top_cast)
 
 
     except Exception as e:
         print(f"Error processing movie: {e}")
+
+df = pd.DataFrame({'Movie Name': title, 'Genres': genres,'Time': time, 'Rating': rating['data-percent'],'Top Cast': top_cast})
+df.to_csv('./Movie-Recommend/allmovies.csv', index=False)
+print("Done")   

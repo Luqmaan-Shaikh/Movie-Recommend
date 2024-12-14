@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import pandas as pd
 
+
 movieNames = []
 movieLinks = []
 
@@ -19,6 +20,7 @@ cast - 'https://www.themoviedb.org/movie/{movie_id}/cast'
 def get_movies():
     base_url = 'https://www.themoviedb.org'
     page = 1
+
     
     
     while True:
@@ -50,3 +52,6 @@ if __name__ == "__main__":
     df = pd.DataFrame({'Movie Name': movieNames, 'Link': movieLinks})
     df.to_csv('./dataset/movies.csv', index=False)
     print("Done")
+    
+
+
