@@ -67,7 +67,7 @@ if __name__ == "__main__":
 data = []
 
 # opening csv file
-with open('Movie-Recommend/test.csv', mode='r') as file:
+with open('test.csv', mode='r') as file:
     csv_reader = csv.reader(file)
     # Iterate through the rows in the CSV file
     for row in csv_reader:
@@ -80,7 +80,7 @@ times = []
 ratings = []
 top_casts = []
 # getting some problem from here #need help from here
-for i in data :
+for i in data[:100] :
     try:
         #url construction 
         per_movie = f'https://www.themoviedb.org{i[0]}'
@@ -106,12 +106,12 @@ for i in data :
         rating =new_soup.find("div",attrs={"class":'user_score_chart'})
         top_cast= cast_soup.find("ol",attrs={"class":'people credits'}).text.strip("\n").replace("\n", "").replace("\t", "").replace("  ", " ")
 
-        '''print(f"Title : {title}")
-        print(f"Genres :{genres}")
-        print(f"Time :{time}")  
-        print(f"Rating :{rating['data-percent']}")
-        print(f"Top Cast :{top_cast}")
-        print("--------------------------------")'''
+        # print(f"Title : {title}")
+        # print(f"Genres :{genres}")
+        # print(f"Time :{time}")  
+        # print(f"Rating :{rating['data-percent']}")
+        # print(f"Top Cast :{top_cast}")
+        # print("--------------------------------")
 
         titles.append(title)
         genre.append(genres)
@@ -123,6 +123,6 @@ for i in data :
     except Exception as e:
         print(f"Error processing movie: {e}")
 
-df = pd.DataFrame({'Movie Name': title, 'Genres': genres,'Time': time, 'Rating': rating['data-percent'],'Top Cast': top_cast})
-df.to_csv('./Movie-Recommend/allmovies.csv', index=False)
+df = pd.DataFrame({'Movie Name': titles, 'Genres': genre,'Time': times, 'Rating': ratings,'Top Cast': top_casts})
+df.to_csv('allmovies.csv', index=False)
 print("Done")   
