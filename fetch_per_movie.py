@@ -78,29 +78,37 @@ print(data)  #to print the list
 
 # getting some problem from here #need help from here
 for i in data :
-    per_movie = f'https://www.themoviedb.org{i[0]}'
+    try:
+        #url construction 
+        per_movie = f'https://www.themoviedb.org{i[0]}'
 
-    cast_movie =f"https://www.themoviedb.org{i[0]}/cast"
+        cast_movie =f"https://www.themoviedb.org{i[0]}/cast"
 
-    new_page = requests.get(per_movie)
-    cast_page = requests.get(cast_movie)
+        # making http request
+        new_page = requests.get(per_movie)
+        cast_page = requests.get(cast_movie)
 
-    #print(new_page)
+        #print(new_page)
 
-    #print(new_page)
+        #print(new_page)
+
+        #parse html content
+        new_soup = BeautifulSoup(new_page.content,'html.parser')
+        cast_soup = BeautifulSoup(cast_page.content,'html.parser')
+        #print(new_soup)
+
+        title=new_soup.find("h2").text.strip()  
+        genres = new_soup.find("span",attrs={"class":'genres'}).text.strip()
+        time = new_soup.find("span",attrs={"class":'runtime'}).text.strip()
+        rating =new_soup.find("div",attrs={"class":'user_score_chart'})
+        top_cast= cast_soup.find("ol",attrs={"class":'people credits'}).text.strip("\n").replace("\n", "").replace("\t", "").replace("  ", " ")
+
+        print(f"Title : {title}")
+        print(f"Genres :{genres}")
+        print(f"Time :{time}")  
+        #print(rating["data-percent"])
+        print(f"Top Cast :{top_cast}")
 
 
-    new_soup = BeautifulSoup(new_page.content,'html.parser')
-    cast_soup = BeautifulSoup(cast_page.content,'html.parser')
-    #print(new_soup)
-
-    title=new_soup.find("h2").text.strip()
-    genres = new_soup.find("span",attrs={"class":'genres'}).text.strip()
-    time = new_soup.find("span",attrs={"class":'runtime'}).text.strip()
-    rating =new_soup.find("div",attrs={"class":'user_score_chart'})
-    top_cast= cast_soup.find("ol",attrs={"class":'people credits'}).text.strip("\n").replace("\n", "").replace("\t", "").replace("  ", " ")
-    print(title)
-    print(genres)
-    print(time)
-    #print(rating["data-percent"])
-    print(top_cast)
+    except Exception as e:
+        print(f"Error processing movie: {e}")
