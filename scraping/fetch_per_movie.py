@@ -67,7 +67,7 @@ if __name__ == "__main__":
 data = []
 
 # opening csv file
-with open('test.csv', mode='r') as file:
+with open('scraping/test.csv', mode='r') as file:
     csv_reader = csv.reader(file)
     # Iterate through the rows in the CSV file
     for row in csv_reader:
@@ -80,7 +80,7 @@ times = []
 ratings = []
 top_casts = []
 # getting some problem from here #need help from here
-for i in data[:100] :
+for i in data[:2000] :
     try:
         #url construction 
         per_movie = f'https://www.themoviedb.org{i[0]}'
@@ -124,5 +124,5 @@ for i in data[:100] :
         print(f"Error processing movie: {e}")
 
 df = pd.DataFrame({'Movie Name': titles, 'Genres': genre,'Time': times, 'Rating': ratings,'Top Cast': top_casts})
-df.to_csv('allmovies.csv', index=False)
+df.to_csv('allmovies-2k.csv', index=False)
 print("Done")   

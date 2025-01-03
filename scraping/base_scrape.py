@@ -50,7 +50,7 @@ if __name__ == "__main__":
     print(len(movieNames))
     
     df = pd.DataFrame({'Movie Name': movieNames, 'Link': movieLinks})
-    df.to_csv('./dataset/movies.csv', index=False)
+    df.to_csv('test-10k.csv', index=False)
     print("Done")
     
 
